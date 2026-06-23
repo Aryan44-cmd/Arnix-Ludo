@@ -1,8 +1,20 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+    font-family:Arial, sans-serif;
+}
+
 .loading-screen{
     position:relative;
     width:100vw;
     height:100vh;
-    overflow:hidden;
 }
 
 .bg{
@@ -16,16 +28,56 @@
 
 .logo{
     position:absolute;
-    width:280px;
+    width:75%;
+    max-width:320px;
     left:50%;
-    top:18%;
+    top:15%;
     transform:translateX(-50%);
 }
 
 .dice{
     position:absolute;
-    width:250px;
+    width:70%;
+    max-width:280px;
     left:50%;
     top:42%;
     transform:translateX(-50%);
+}
+
+.progress-text{
+    position:absolute;
+    bottom:180px;
+    width:100%;
+    text-align:center;
+    color:white;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.progress-bar{
+    position:absolute;
+    bottom:110px;
+    left:50%;
+    transform:translateX(-50%);
+    width:80%;
+    height:30px;
+    background:rgba(255,255,255,0.4);
+    border-radius:50px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    width:65%;
+    height:100%;
+    background:linear-gradient(to right,#ff6a00,#ffd000);
+    border-radius:50px;
+}
+
+.loading-text{
+    position:absolute;
+    bottom:60px;
+    width:100%;
+    text-align:center;
+    color:white;
+    font-size:20px;
 }
