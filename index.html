@@ -13,7 +13,6 @@ html,body{width:100%;height:100%;overflow:hidden;}
   position:relative;overflow:hidden;
 }
 
-/* Background */
 .bg{
   position:absolute;top:0;left:0;
   width:100%;height:100%;
@@ -22,10 +21,12 @@ html,body{width:100%;height:100%;overflow:hidden;}
   z-index:0;
 }
 
-/* Logo - top 8% */
+/* Logo - top fixed */
 .logo-area{
   position:absolute;
-  top:60px;left:50%;transform:translateX(-50%);
+  top:60px;
+  left:50%;
+  transform:translateX(-50%);
   z-index:2;
   animation:fadeDown 0.8s ease forwards;
 }
@@ -39,27 +40,35 @@ html,body{width:100%;height:100%;overflow:hidden;}
 }
 @keyframes logoPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.04);}}
 
-/* Dice - middle 38% to 72% */
+/* Dice - exact center */
 .hero-area{
   position:absolute;
-  top:50%;left:50%;transform:translate(-50%,-50%);
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
   z-index:2;
+  display:flex;
+  justify-content:center;
+  align-items:center;
   animation:fadeIn 0.9s ease 0.3s both;
 }
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 
 .hero-img{
-  width:85vw;max-width:380px;
+  width:70vw;
+  max-width:320px;
   display:block;
   filter:drop-shadow(0 12px 30px rgba(0,0,0,0.12));
   animation:heroFloat 3s ease-in-out infinite;
 }
 @keyframes heroFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
 
-/* Progress - bottom 8% */
+/* Progress - bottom fixed */
 .progress-area{
   position:absolute;
-  bottom:6%;left:50%;transform:translateX(-50%);
+  bottom:6%;
+  left:50%;
+  transform:translateX(-50%);
   width:80%;
   z-index:2;
   animation:fadeUp 0.9s ease 0.5s both;
@@ -110,14 +119,17 @@ html,body{width:100%;height:100%;overflow:hidden;}
 <div class="screen">
   <div class="bg"></div>
 
+  <!-- Logo TOP -->
   <div class="logo-area">
     <img class="logo-img" src="logo.png" alt="Arnix Ludo"/>
   </div>
 
+  <!-- Dice EXACT CENTER -->
   <div class="hero-area">
     <img class="hero-img" src="dice.png" alt="Dice"/>
   </div>
 
+  <!-- Progress BOTTOM -->
   <div class="progress-area">
     <div class="progress-pct" id="pct">0%</div>
     <div class="progress-track">
