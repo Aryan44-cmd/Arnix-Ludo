@@ -1,32 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arnix Ludo</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+<title>Arnix Ludo</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Poppins',sans-serif;}
+
+.screen{
+  width:100%;height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:space-between;
+  padding:60px 40px 70px;
+  position:relative;overflow:hidden;
+}
+
+/* Background */
+.bg{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  background-image:url('background.png');
+  background-size:cover;background-position:center;
+  z-index:0;
+}
+
+/* Top: Logo */
+.logo-area{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;
+  align-items:center;
+  animation:fadeDown 0.8s ease forwards;
+}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-30px);}to{opacity:1;transform:translateY(0);}}
+
+.logo-img{
+  width:120px;
+  filter:drop-shadow(0 8px 24px rgba(255,107,43,0.4));
+  animation:logoPulse 2s ease-in-out infinite;
+}
+@keyframes logoPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+
+/* Middle: Hero image */
+.hero-area{
+  position:relative;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+  animation:fadeUp 0.9s ease 0.3s both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+
+.hero-img{
+  width:280px;max-width:80vw;
+  filter:drop-shadow(0 16px 40px rgba(0,0,0,0.15));
+  animation:heroFloat 3s ease-in-out infinite;
+}
+@keyframes heroFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+
+/* Bottom: Progress */
+.progress-area{
+  position:relative;z-index:2;width:100%;
+  animation:fadeUp 0.9s ease 0.5s both;
+}
+
+.progress-pct{
+  font-size:1rem;font-weight:700;
+  color:rgba(255,255,255,0.9);
+  text-align:center;margin-bottom:10px;
+  text-shadow:0 2px 8px rgba(0,0,0,0.15);
+}
+
+.progress-track{
+  height:18px;
+  background:rgba(255,255,255,0.35);
+  border-radius:99px;overflow:hidden;
+  border:2px solid rgba(255,255,255,0.6);
+  box-shadow:inset 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.progress-fill{
+  height:100%;width:0%;
+  border-radius:99px;
+  background:linear-gradient(90deg,#FF6B2B,#FFD60A,#FF8C42);
+  background-size:200% 100%;
+  transition:width 0.15s linear;
+  box-shadow:0 0 20px rgba(255,107,43,0.6);
+  animation:shimmer 1.5s linear infinite;
+}
+@keyframes shimmer{0%{background-position:200% center;}100%{background-position:-200% center;}}
+
+.loading-text{
+  text-align:center;margin-top:10px;
+  font-size:0.88rem;font-weight:500;
+  color:rgba(255,255,255,0.75);
+  letter-spacing:0.03em;
+}
+</style>
 </head>
 <body>
+<div class="screen">
+  <div class="bg"></div>
 
-    <div class="loading-screen">
+  <!-- Logo -->
+  <div class="logo-area">
+    <img class="logo-img" src="logo.png" alt="Arnix Ludo"/>
+  </div>
 
-        <img src="background.jpg" class="bg">
+  <!-- Hero -->
+  <div class="hero-area">
+    <img class="hero-img" src="dice.png" alt="Dice and Tokens"/>
+  </div>
 
-        <img src="logo.png" class="logo">
-
-        <img src="dice.png" class="dice">
-
-        <div class="progress-text">65%</div>
-
-        <div class="progress-bar">
-            <div class="progress-fill"></div>
-        </div>
-
-        <div class="loading-text">
-            Preparing your game...
-        </div>
-
+  <!-- Progress -->
+  <div class="progress-area">
+    <div class="progress-pct" id="pct">0%</div>
+    <div class="progress-track">
+      <div class="progress-fill" id="fill"></div>
     </div>
+    <div class="loading-text">Preparing your game...</div>
+  </div>
+</div>
 
+<script>
+let p = 0;
+const fill = document.getElementById('fill');
+const pct = document.getElementById('pct');
+const msgs = ['Preparing your game...','Loading assets...','Almost ready...','Let\'s play!'];
+let msgIdx = 0;
+const msgEl = document.querySelector('.loading-text');
+
+const iv = setInterval(() => {
+  p += Math.random() * 2.5 + 0.8;
+  if(p >= 100) {
+    p = 100;
+    clearInterval(iv);
+    msgEl.textContent = "Let's play! 🎲";
+    setTimeout(() => { window.location.href = 'menu.html'; }, 600);
+  }
+  fill.style.width = p + '%';
+  pct.textContent = Math.floor(p) + '%';
+  if(p > 30 && msgIdx === 0){ msgIdx=1; msgEl.textContent = msgs[1]; }
+  if(p > 60 && msgIdx === 1){ msgIdx=2; msgEl.textContent = msgs[2]; }
+  if(p > 90 && msgIdx === 2){ msgIdx=3; msgEl.textContent = msgs[3]; }
+}, 60);
+</script>
 </body>
-</html>
+    </html>
+
