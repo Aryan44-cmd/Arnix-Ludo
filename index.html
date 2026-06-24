@@ -4,18 +4,16 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
 <title>Arnix Ludo</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html,body{width:100%;height:100%;overflow:hidden;font-family:'Poppins',sans-serif;}
+html,body{width:100%;height:100%;overflow:hidden;}
 
 .screen{
   width:100%;height:100vh;
   position:relative;overflow:hidden;
-  display:flex;flex-direction:column;
-  align-items:center;
 }
 
+/* Background */
 .bg{
   position:absolute;top:0;left:0;
   width:100%;height:100%;
@@ -24,50 +22,53 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Poppins',sans-seri
   z-index:0;
 }
 
-/* Logo - bilkul upar */
+/* Logo - top 8% */
 .logo-area{
-  position:relative;z-index:2;
-  margin-top:5vh;
-  display:flex;align-items:center;justify-content:center;
+  position:absolute;
+  top:60px;left:50%;transform:translateX(-50%);
+  z-index:2;
   animation:fadeDown 0.8s ease forwards;
 }
-@keyframes fadeDown{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeDown{from{opacity:0;transform:translateX(-50%) translateY(-20px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
 
 .logo-img{
-  width:52vw;max-width:230px;
+  width:55vw;max-width:240px;
+  display:block;
   filter:drop-shadow(0 6px 20px rgba(0,0,0,0.15));
   animation:logoPulse 2.5s ease-in-out infinite;
 }
 @keyframes logoPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.04);}}
 
-/* Dice - logo ke bilkul neeche */
+/* Dice - middle 38% to 72% */
 .hero-area{
-  position:relative;z-index:2;
-  margin-top:5vh;
-  display:flex;align-items:center;justify-content:center;
-  animation:fadeUp 0.9s ease 0.3s both;
+  position:absolute;
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  z-index:2;
+  animation:fadeIn 0.9s ease 0.3s both;
 }
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 
 .hero-img{
-  width:75vw;max-width:320px;
+  width:85vw;max-width:380px;
+  display:block;
   filter:drop-shadow(0 12px 30px rgba(0,0,0,0.12));
   animation:heroFloat 3s ease-in-out infinite;
 }
 @keyframes heroFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
 
-/* Progress - fixed bottom */
+/* Progress - bottom 8% */
 .progress-area{
   position:absolute;
-  bottom:18vh;
-  left:0;right:0;
+  bottom:6%;left:50%;transform:translateX(-50%);
+  width:80%;
   z-index:2;
-  padding:0 50px;
+  animation:fadeUp 0.9s ease 0.5s both;
 }
+@keyframes fadeUp{from{opacity:0;transform:translateX(-50%) translateY(20px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
 
 .progress-pct{
   font-size:1rem;font-weight:700;
-  color:#fff;
+  color:#fff;font-family:sans-serif;
   text-align:center;margin-bottom:8px;
   text-shadow:0 2px 8px rgba(0,0,0,0.2);
 }
@@ -89,10 +90,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Poppins',sans-seri
   box-shadow:0 0 20px rgba(41,182,246,0.6);
   position:relative;overflow:hidden;
 }
-
 .progress-fill::after{
-  content:'';
-  position:absolute;top:0;left:-100%;
+  content:'';position:absolute;top:0;left:-100%;
   width:60%;height:100%;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent);
   animation:barShimmer 1.2s linear infinite;
@@ -101,9 +100,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Poppins',sans-seri
 
 .loading-text{
   text-align:center;margin-top:10px;
-  font-size:0.88rem;font-weight:500;
+  font-size:0.88rem;font-weight:500;font-family:sans-serif;
   color:rgba(255,255,255,0.9);
-  letter-spacing:0.02em;
   text-shadow:0 1px 4px rgba(0,0,0,0.15);
 }
 </style>
@@ -112,17 +110,14 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Poppins',sans-seri
 <div class="screen">
   <div class="bg"></div>
 
-  <!-- Logo upar -->
   <div class="logo-area">
     <img class="logo-img" src="logo.png" alt="Arnix Ludo"/>
   </div>
 
-  <!-- Dice beech mein -->
   <div class="hero-area">
     <img class="hero-img" src="dice.png" alt="Dice"/>
   </div>
 
-  <!-- Progress neeche -->
   <div class="progress-area">
     <div class="progress-pct" id="pct">0%</div>
     <div class="progress-track">
@@ -141,11 +136,7 @@ const msgs=['Preparing your game...','Loading assets...','Almost ready...','Let\
 let mi=0;
 const iv=setInterval(()=>{
   p+=Math.random()*2+0.8;
-  if(p>=100){
-    p=100;clearInterval(iv);
-    msg.textContent=msgs[3];
-    setTimeout(()=>{window.location.href='menu.html';},700);
-  }
+  if(p>=100){p=100;clearInterval(iv);msg.textContent=msgs[3];setTimeout(()=>{window.location.href='menu.html';},700);}
   fill.style.width=p+'%';
   pct.textContent=Math.floor(p)+'%';
   if(p>30&&mi===0){mi=1;msg.textContent=msgs[1];}
@@ -155,3 +146,4 @@ const iv=setInterval(()=>{
 </script>
 </body>
 </html>
+
